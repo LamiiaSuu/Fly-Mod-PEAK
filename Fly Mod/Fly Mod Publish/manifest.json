@@ -1,0 +1,9 @@
+{
+    "name": "FlyModPEAK",
+    "version_number": "1.2.1",
+    "website_url": "https://github.com/LamiiaSuu/Fly-Mod-PEAK",
+    "description": "Fly. Fully Configurable, different flying modes.",
+    "dependencies": [
+        "BepInEx-BepInExPack_PEAK-5.4.2403"
+    ]
+}
