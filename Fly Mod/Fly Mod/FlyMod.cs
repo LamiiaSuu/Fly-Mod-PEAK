@@ -132,7 +132,6 @@ public class FlyModPatch : MonoBehaviourPun
                     part.AddForce(flyForce, ForceMode.Force);
 
             }
-            FlyMod.Log.LogInfo("Flew with " + flyForce);
 
         }
         else
