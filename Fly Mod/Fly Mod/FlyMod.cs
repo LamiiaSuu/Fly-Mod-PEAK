@@ -40,11 +40,12 @@ public class FlyModPatch : MonoBehaviourPun
     private Character character;
     private CharacterMovement charMovement;
     private float maxGravity;
-    private float flyMaxGravity;
+    private float flyMaxGravity = -1f;
     private void Start()
     {
         character = ((Component)this).GetComponent<Character>();
         charMovement = this.GetComponent<CharacterMovement>();
+        maxGravity = charMovement.maxGravity;
     }
 
     private void Update()
@@ -52,29 +53,23 @@ public class FlyModPatch : MonoBehaviourPun
         if (!character.IsLocal)
 
             return;
-        maxGravity = charMovement.maxGravity;
-        if (Input.GetKey(KeyCode.LeftAlt))
+        if (Input.GetKey(KeyCode.Mouse4))
         {
-            flyMaxGravity = -1f;
+            charMovement.maxGravity = flyMaxGravity;
             Vector3 flyForce = character.data.lookDirection * 100f;
-            if(flyForce.x > 600)
-            {
-                flyForce.x = 600;
-            }
-            if (flyForce.y > 600)
-            {
-                flyForce.y = 600;
-            }
-            if (flyForce.z > 600)
-            {
-                flyForce.z = 600;
-            }
+            flyForce.x = Mathf.Clamp(flyForce.x, -600f, 600f);
+            flyForce.y = Mathf.Clamp(flyForce.y, -600f, 600f);
+            flyForce.z = Mathf.Clamp(flyForce.z, -600f, 600f);
             foreach (var part in character.refs.ragdoll.partList)
             {
                 part.AddForce(flyForce, ForceMode.Force);
             }
             FlyMod.Log.LogInfo("Flew with " + flyForce);
 
+        }
+        else
+        {
+            charMovement.maxGravity = maxGravity;
         }
 
     }
