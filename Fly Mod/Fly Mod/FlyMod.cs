@@ -25,7 +25,7 @@ public class FlyMod : BaseUnityPlugin
         Log.LogInfo("FlyMod loaded.");
         Harmony harmony = new Harmony("com.lamia.flymod");
         harmony.PatchAll();
-        CreativeFlyMode = Config.Bind("FlyMod", "CreativeFlyMode", true, "If true, flying feels more like noclipping in Garry's Mod or manuevering a 3d environment. Setting this to false makes flying feel more like being boosted by a directional Jetpack. You should disable ToggleFly if this is set to false.");
+        CreativeFlyMode = Config.Bind("FlyMod", "CreativeFlyMode", true, "If true, flying feels more like noclipping in Garry's Mod or manuevering a 3d environment. Setting this to false makes flying feel more like a superhero or being boosted by a Jetpack.");
         FlyKey = Config.Bind("FlyMod", "FlyKey", KeyCode.V, "Key to activate flying (default: Mouse3/Middle mouse button).");
         ToggleFly = Config.Bind("FlyMod", "ToggleFly", true, "If true, fly is toggled on/off with the key instead of holding.");
         BaseForce = Config.Bind("FlyMod", "BaseForce", 800f, "Base force applied when flying forward/backward/sideways.");
