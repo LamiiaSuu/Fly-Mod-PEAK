@@ -6,7 +6,7 @@ using Photon.Pun;
 using UnityEngine;
 using static System.Runtime.CompilerServices.RuntimeHelpers;
 
-[BepInPlugin("com.lamia.flymod", "FlyMod", "1.1.0")]
+[BepInPlugin("com.lamia.flymod", "FlyMod", "1.2.1")]
 public class FlyMod : BaseUnityPlugin
 {
     internal static ConfigEntry<float> BaseForce;
@@ -31,7 +31,7 @@ public class FlyMod : BaseUnityPlugin
         BaseForce = Config.Bind("FlyMod", "BaseForce", 800f, "Base force applied when flying forward/backward/sideways.");
         VerticalForce = Config.Bind("FlyMod", "VerticalForce", 800f, "Force applied when flying up or down.");
         SprintMultiplier = Config.Bind("FlyMod", "SprintMultiplier", 4f, "Multiplier when holding shift.");
-        MaxClamp = Config.Bind("FlyMod", "MaxClamp", 3600f, "Clamp for maximum fly speed in any direction.");
+        MaxClamp = Config.Bind("FlyMod", "MaxClamp", 4000f, "Clamp for maximum fly speed in any direction.");
 
     }
 }
@@ -64,7 +64,7 @@ public class FlyModPatch : MonoBehaviourPun
     private void Start()
     {
         character = ((Component)this).GetComponent<Character>();
-        //charMovement = this.GetComponent<CharacterMovement>();
+        charMovement = this.GetComponent<CharacterMovement>();
         //maxGravity = charMovement.maxGravity;
     }
 
@@ -151,7 +151,7 @@ public class FlyModPatch : MonoBehaviourPun
 
 
 
-            if (Input.GetKey(KeyCode.LeftShift) && FlyMod.CreativeFlyMode.Value)
+            if (Input.GetKey(KeyCode.LeftShift))
             {
                 character.AddStamina(charMovement.sprintStaminaUsage * Time.deltaTime);
                 flyForce *= FlyMod.SprintMultiplier.Value;
@@ -160,7 +160,7 @@ public class FlyModPatch : MonoBehaviourPun
             if (FlyMod.CreativeFlyMode.Value)
                 flyForce += Vector3.down * 100f;
             else
-                flyForce += Vector3.up * 100f;
+                flyForce += Vector3.up * 240f;
 
 
             flyForce.x = Mathf.Clamp(flyForce.x, -FlyMod.MaxClamp.Value, FlyMod.MaxClamp.Value);
@@ -169,12 +169,19 @@ public class FlyModPatch : MonoBehaviourPun
             foreach (var part in character.refs.ragdoll.partList)
             {
                 if (FlyMod.CreativeFlyMode.Value)
-                    part.AddForce(flyForce, ForceMode.Force);
+                {
+
+                    //if (!part.partType.ToString().Contains("Leg") && !part.partType.ToString().Contains("Knee") && !part.partType.ToString().Contains("Foot") && !part.partType.ToString().Contains("Hip"))
+                    //{
+                        part.AddForce(flyForce, ForceMode.Force);
+                    //}
+                }
+                    
                 else
                 {
-                    if (!part.partType.ToString().Contains("Leg") && !part.partType.ToString().Contains("Knee"))
-                    {
-                        part.AddForce(flyForce / 8, ForceMode.Acceleration);
+                    if (!part.partType.ToString().Contains("Leg") && !part.partType.ToString().Contains("Knee") && !part.partType.ToString().Contains("Foot"))
+                    {   
+                        part.AddForce(flyForce / 7, ForceMode.Acceleration);
                     }
                 }
                     
