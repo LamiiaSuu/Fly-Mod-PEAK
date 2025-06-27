@@ -57,6 +57,12 @@ public class FlyModPatch : MonoBehaviourPun
         {
             charMovement.maxGravity = flyMaxGravity;
             Vector3 flyForce = character.data.lookDirection * 100f;
+
+            if (Input.GetKey(KeyCode.W))
+                flyForce *= 2f;
+            if (Input.GetKey(KeyCode.S))
+                flyForce *= -1f;
+
             flyForce.x = Mathf.Clamp(flyForce.x, -600f, 600f);
             flyForce.y = Mathf.Clamp(flyForce.y, -600f, 600f);
             flyForce.z = Mathf.Clamp(flyForce.z, -600f, 600f);
