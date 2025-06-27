@@ -1,6 +1,9 @@
 # Prerequisites
 *.d
+.*
+!FlyMod.dll
 
+!*.cs
 # Object files
 *.o
 *.ko
